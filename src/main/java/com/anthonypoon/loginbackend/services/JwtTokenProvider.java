@@ -20,12 +20,12 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
 
     private final JWTVerifier verifier;
-
+    private final Algorithm algorithm;
     private final AppUserRepository userRepo;
 
-    public JwtTokenProvider(AppUserRepository userRepo, JwtConfig config) {
-        Algorithm algorithm = Algorithm.HMAC256(config.getJwtSecret());
-        this.verifier = JWT.require(algorithm)
+    public JwtTokenProvider(AppUserRepository userRepo, @Value("${spring.jwt.secret}") String secret) {
+        this.algorithm = Algorithm.HMAC256(secret);
+        this.verifier = JWT.require(this.algorithm)
                 .build();
         this.userRepo = userRepo;
     }
@@ -42,5 +42,11 @@ public class JwtTokenProvider {
         } catch (JWTVerificationException exception) {
             return null;
         }
+    }
+
+    public String encodeJwt(AppUser user) {
+        return JWT.create()
+                .withClaim("username", user.getUsername())
+                .sign(this.algorithm);
     }
 }
