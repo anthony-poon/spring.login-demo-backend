@@ -16,11 +16,6 @@ public class AppUserDetailService implements UserDetailsService {
     @Autowired
     private AppUserRepository appUserRepository;
 
-    @Bean
-    public PasswordEncoder getPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = appUserRepository.findByUsername(username);
