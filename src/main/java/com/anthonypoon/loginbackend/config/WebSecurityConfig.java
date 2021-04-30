@@ -36,3 +36,48 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(this.jwtConfig);
     }
 }
+
+
+// Annotation:
+// - @Configuration + @Bean creates a bean for other class to use
+// - In this context is, WebSecurityConfig took over the creation of UserDetailsService and configuration of HttpSecurity.
+// - Other class will use InMemoryUserDetailsManager we created
+
+// sessionManagement:
+// - Tell spring that we need to re-authenticate on every call
+// - Can demo by switching auth header on and off in Postman
+
+// antMatchers:
+// - Match the URL to the patterns, and see what security policy to apply
+// - Ordering from top to bottom, other rules is ignored if one is matched
+// - hasRole()      =>  user must have all roles
+// - hasAnyRole()   =>  user have any of roles
+// - permitAll()    =>  user with or without login
+// - anonymous      =>  user without login only
+
+// Review on JPA basic:
+// You need a entity, repository and a service layer
+// - Entity         =>  a row in a database, or POJO representation of a record in database
+// - Repository     =>  Class that interact with database
+// - Service Layer  =>  Perform logical operation
+
+// Change in-memory user service to database user service
+// Step 1: Setup AppUser entity, AppUserRepository, AppUserDetailService
+// Step 2: Create a DataLoader to add first user on load
+// Step 3: Add a PasswordEncoder bean in WebSecurityConfig
+// Step 4: Implement UserDetails in AppUser -> Implementing UserDetails enables other spring service to use
+
+// In order to use JWT token to login, we need to change the
+//      .and()
+//          .httpBasic();
+// to
+//      .and()
+//          .[a Class that implements SecurityConfigurerAdapter]()
+
+// Afterward, we add a filter and a token provider service
+// JwtTokenFilter   =>  Just a like water pass through water filter in real life, a request in spring is pass through
+//                      spring filter. It can modify request and response as defined
+// JWTTokenProvider =>  Generate and verify jwt token. We use com.auth0.jwt in this example
+
+// By default, CSRF token is required to submit anything. In a REST API, we do not want that.
+// Thus we add http.csrf().disable();
