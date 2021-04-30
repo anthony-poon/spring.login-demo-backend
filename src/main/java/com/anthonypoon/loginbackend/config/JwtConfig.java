@@ -1,9 +1,6 @@
 package com.anthonypoon.loginbackend.config;
 
 import com.anthonypoon.loginbackend.services.JwtTokenFilter;
-import com.anthonypoon.loginbackend.services.JwtTokenProvider;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
