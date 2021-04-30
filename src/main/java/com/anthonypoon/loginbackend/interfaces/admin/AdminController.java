@@ -16,5 +16,7 @@ public class AdminController {
 }
 
 // Add in-memory user service + HTTP Basic authentication
-// Step 1: Add spring-boot-starter-security as dependency
+//
+// Same as HeartBeatController, the only different is that the URL of this method is /admin/heart-beat
+// Step 1: Add spring-boot-starter-security, spring-security-config as dependency
 // Step 2: ***.config.WebSecurityConfig (extend WebSecurityConfigurerAdapter)
