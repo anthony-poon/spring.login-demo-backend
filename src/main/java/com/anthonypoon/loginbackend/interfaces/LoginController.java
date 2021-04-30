@@ -24,7 +24,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> getJWTFromLogin(@RequestBody LoginRequestDTO request) {
-        AppUser user = userDetailService.signInByUsernamePassword(request.getUsername(), request.getPassword());
+        AppUser user = userDetailService.tryUsernamePassword(request.getUsername(), request.getPassword());
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

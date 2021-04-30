@@ -26,8 +26,11 @@ public class AppUserDetailService implements UserDetailsService {
         return user;
     }
 
-    public AppUser signInByUsernamePassword(String username, String password) {
+    public AppUser tryUsernamePassword(String username, String password) {
         AppUser user = appUserRepository.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
         String hash = user.getPassword();
         if (!this.encoder.matches(password, hash)) {
             return null;
