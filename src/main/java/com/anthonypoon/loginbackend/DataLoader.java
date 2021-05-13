@@ -10,19 +10,33 @@ import java.util.Collections;
 
 @Component
 public class DataLoader {
+    private final AppUserRepository userRepo;
+    private final PasswordEncoder encoder;
     @Autowired
     private DataLoader(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
-        AppUser admin = AppUser.builder()
-                .roles(Collections.singleton("ROLE_ADMIN"))
-                .username("admin")
-                .password(passwordEncoder.encode("password"))
-                .build();
-        appUserRepository.saveAndFlush(admin);
+        this.userRepo = appUserRepository;
+        this.encoder = passwordEncoder;
+        AppUser admin = loadAdmin();
+        AppUser user = loadUser();
+    }
+
+    private AppUser loadUser() {
         AppUser user = AppUser.builder()
                 .roles(Collections.singleton("ROLE_USER"))
                 .username("user")
-                .password(passwordEncoder.encode("password"))
+                .password(encoder.encode("password"))
                 .build();
-        appUserRepository.saveAndFlush(user);
+        userRepo.saveAndFlush(user);
+        return user;
+    }
+
+    private AppUser loadAdmin() {
+        AppUser admin = AppUser.builder()
+                .roles(Collections.singleton("ROLE_ADMIN"))
+                .username("admin")
+                .password(encoder.encode("password"))
+                .build();
+        userRepo.saveAndFlush(admin);
+        return admin;
     }
 }
