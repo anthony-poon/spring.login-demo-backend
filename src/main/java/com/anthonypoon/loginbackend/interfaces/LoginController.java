@@ -29,7 +29,7 @@ public class LoginController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         LoginResponseDTO dto = new LoginResponseDTO();
-        dto.setJwt(this.provider.encodeJwt(user));
+        dto.setAccessToken(this.provider.encodeJwt(user));
         return new ResponseEntity<>(dto, HttpStatus.ACCEPTED);
     }
 }

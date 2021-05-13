@@ -9,7 +9,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * JwtTokenProvider generate JWT from user authentication, or validate
@@ -45,8 +50,12 @@ public class JwtTokenProvider {
     }
 
     public String encodeJwt(AppUser user) {
+        List<String> authorities = user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
         return JWT.create()
                 .withClaim("username", user.getUsername())
+                .withClaim("authorities", authorities)
                 .sign(this.algorithm);
     }
 }
