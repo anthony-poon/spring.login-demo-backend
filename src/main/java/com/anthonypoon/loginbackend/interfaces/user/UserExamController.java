@@ -13,10 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user/exams")
-public class ExamController {
+public class UserExamController {
     private final ExamRepository repository;
 
-    public ExamController(ExamRepository repository) {
+    public UserExamController(ExamRepository repository) {
         this.repository = repository;
     }
 
