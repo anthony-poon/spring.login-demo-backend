@@ -1,6 +1,5 @@
 package com.anthonypoon.loginbackend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,9 +14,5 @@ public class Answer {
     @ManyToOne
     private Question question;
 
-    private String statement;
-
-    private boolean isSelected = false;
-
-    private boolean isCorrectAnswer = false;
+    // TODO
 }
